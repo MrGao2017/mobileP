@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title></title>
+    <style media="screen">
+      #div1{width: 200px;height: 200px; background: red; position:absolute; top: 0; left: 0; font-size: 50px; color: #fff}
+    </style>
+  </head>
+  <body>
+    <div id="div1"></div>
+    <script type="text/javascript">
+      document.addEventListener('touchstart',function(ev){
+        ev.preventdefault()
+      })
+      var div1 = document.getElementById('div1');
+      div1.addEventListener('touchstart',start);
+      function start(ev){
+        this.innerHTML = ev.touches.length;
+      }
+    </script>
+  </body>
+</html>

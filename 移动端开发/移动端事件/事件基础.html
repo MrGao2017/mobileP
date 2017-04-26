@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <style media="screen">
+      #box{width: 200px; height: 200px; background: red;}
+    </style>
+  </head>
+  <body>
+    <div id="box"></div>
+    <script type="text/javascript">
+      var box = document.getElementById('box');
+      // box.ontouchstart = function(){
+      //   alert(1)
+      // }
+      box.addEventListener('touchstart',start)
+      box.addEventListener('touchmove',move)
+      box.addEventListener('touchend',end)
+      function start(){
+        console.log(1);
+      }
+      function move(){
+        console.log('移动');
+      }
+      function end(){
+        console.log('抬起');
+      }
+      
+      
+    </script>
+  </body>
+</html>

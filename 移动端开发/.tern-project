@@ -1,0 +1,19 @@
+{
+  "ecmaVersion": "5",
+  "libs": [
+    "browser",
+    "chai",
+    "jquery",
+    "underscore"
+  ],
+  "loadEagerly": [
+    "**/*.js"
+  ],
+  "dontLoad": [
+    "node_module/**"
+  ],
+  "plugins": {
+    "node-express": {},
+    "doc_comment": true
+  }
+}

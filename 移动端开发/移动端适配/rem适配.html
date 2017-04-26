@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title></title>
+    <script type="text/javascript">
+      (function(){
+        var html = document.documentElement;
+        var hWidth = html.getBoundingClientRect().width;
+        html.style.fontSize = hWidth/16+'px';
+        //1rem = 20px
+        console.log(hWidth);
+      })()
+    </script>
+    <style media="screen">
+      body{ margin: 0}
+      div{width:4rem; height:4rem; box-sizing: border-box;float: left; border: 1px solid #000;}
+      div:nth-of-type(1){background-color: red}
+      div:nth-of-type(2){background-color:rgb(229, 233, 10)}
+      div:nth-of-type(3){background-color: blue;}
+      div:nth-of-type(4){background-color: pink;}
+    </style>
+  </head>
+  <body>
+    <!--
+    rem root 根节点 html 根据根节点的字体大小来结算的
+    em 根据字的父节点计算单位
+   -->
+    <div class="box1"></div>
+    <div class="box2"></div>
+    <div class="box3"></div>
+    <div class="box4"></div>
+  </body>
+</html>
