@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,user-scalable=no" />
+		<title></title>
+		<style media="screen">
+			body{margin: 0}
+			html,body{ height: 100%; overflow: hidden; position: relative;}
+			#header{ height: 40px; line-height: 40px; background: #000; color: #fff; text-align: center;}
+			#wrap{position: absolute; left: 0; right: 0; top: 40px; bottom: 40px; overflow: hidden;}
+			#list {margin: 0;padding: 0;list-style: none;}
+			#list li {line-height: 30px;text-indent: 20px;font-size: 16px;border-bottom: 1px solid #000;}
+			#footer{ position: absolute; left: 0; right: 0; bottom: 0; height: 40px; line-height: 40px; background: #000; color: #fff; text-align: center;}
+
+		</style>
+	</head>
+	<body>
+		<header id="header">妙味课堂</header>
+		<section id="wrap">
+			<ul id="list">
+				
+			</ul>
+		</section>
+		<footer id="footer">希望大家都能学到靠谱的内容</footer>
+		<script src="m.Tween.js" charset="utf-8"></script>
+		<script type="text/javascript">
+		window.addEventListener('touchmove', function(ev){ev.preventDefault()}, { passive: false })
+			var list = document.querySelector('#list');
+			var inner = "";
+			for(i =0;i<100;i++){
+				inner += '<li>这是第' + i +'位</li>'
+			}
+			list.innerHTML = inner;
+			var startPoint = 0;
+			var startE1 = 0;
+			var lastY = 0;//上一次的距离
+			var lastDis = 0;//最后一次的距离
+			var lastTime = 0; //上一次的时间
+			var lastTimeDis = 0; //最后一次的时间差
+			//滑动
+			css(list,'translateZ',0.01)
+			var wrap = document.querySelector('#wrap');
+			var list = document.querySelector('#list');
+			var startPoint = 0;
+			var startEl = 0;
+			var lastY = 0;
+			var lastDis = 0;
+			var lastTime = 0;
+			var lastTimeDis = 0;
+			var maxTranslate = wrap.clientHeight - list.offsetHeight;
+			css(list,"translateZ",0.01);
+			list.addEventListener('touchstart', function(e) {
+				maxTranslate = wrap.clientHeight - list.offsetHeight;
+				clearInterval(list.timer);
+				startPoint = e.changedTouches[0].pageY;
+				startEl = css(list,"translateY");
+				lastY = startEl;
+				lastTime = new Date().getTime();
+				lastTimeDis = lastDis = 0;
+			});
+			list.addEventListener('touchmove', function(e) {
+				var nowTime = new Date().getTime();
+				var nowPoint = e.changedTouches[0].pageY;
+				var dis = nowPoint - startPoint;
+				var translateY = startEl + dis;
+				css(list,"translateY",translateY);
+				lastDis = translateY - lastY;
+				lastY = translateY;
+				lastTimeDis = nowTime - lastTime;
+				lastTime = nowTime;
+			});
+			list.addEventListener('touchend', function(e) {
+				var type = "easeOut";
+				var speed = Math.round(lastDis / lastTimeDis*10);
+				speed = lastTimeDis <= 0?0 :speed;
+				var target = Math.round(speed*30 + css(list,"translateY"));
+				if(target > 0){
+					target = 0;
+					type = "backOut";
+				} else if(target < maxTranslate){
+					target = maxTranslate;
+					type = "backOut";
+				}
+				console.log(target);
+				MTween({
+					el:list,
+					target: {translateY:target},
+					time: Math.round(Math.abs(target - css(list,"translateY"))*2),
+					type: type
+				});
+			});
+			
+		</script>
+	</body>
+</html>
