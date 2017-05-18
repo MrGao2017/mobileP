@@ -1,0 +1,6 @@
+body,h1,h2,h3,h4,h5,h6,p,ul,ol,li{margin:0;padding:0;}
+body{font:12px/1.5 "微软雅黑";}
+ul,ol{list-style:none;}
+a{text-decoration:none; font-size: 0;}
+.fl{float: left;}
+.fr{ float: right;}
