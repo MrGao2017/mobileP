@@ -1,0 +1,148 @@
+<!doctype html><!--声明文档类型：html-->
+<html lang="en">
+	<head><!--头部-->
+		<meta charset="UTF-8"><!--字符编码:utf-8国际编码-->
+		<meta name="Keywords" content="关键词1,关键词2"><!--关键词-->
+		<meta name="Description" content="描述"><!--描述-->
+		<title>视频播放器开发-玄武老师</title><!--网页标题-->
+		<style>/*css样式*/
+			*{/* 通用选择器:选择到所有的标签元素*/
+				margin:0;/*外边距*/
+				padding:0;/*内边距*/
+			}
+			#wrap{/* # id选择器*/
+				width:600px;/*宽度*/
+				height:500px;/*高度*/
+				/*background:#999933;背景颜色*/
+				margin:50px auto;/*上下50px 左右自动(居中)*/
+			}
+			.video{/* . class类选择器*/
+				width:600px;
+				height:400px;
+				background:url("images/3.jpg");/*背景图片*/
+			}
+			.progress{
+				width:600px;
+				height:20px;
+			}
+			.currentTime,.allTime{/* , 并列选择器*/
+				width:80px;
+				height:20px;
+				/*background:#99ff00;*/
+				float:left;/*左浮动:与父元素的左端对齐 依次的往右端显示*/
+			}
+			.pro_bat{
+				width:440px;
+				height:20px;
+				background:#33ffff;
+				float:left;
+				border-radius:10px;/*圆角属性*/
+			}
+			.pro{
+				width:20px;
+				height:20px;
+				background:#993333;
+				border-radius:50%;/*圆形*/
+			}
+			.controls{
+				width:600px;
+				height:80px;
+				/*background:red;*/
+			}
+			.controls p{/* 混合选择器 */
+				width:65px;
+				height:65px;
+				background:url("images/icon.png");
+				float:left;
+				margin:10px;
+				cursor:pointer;/*鼠标改成手的形状*/
+			}
+			#prev{
+				background-position:-413px -214px;/*背景定位*/
+				margin-left:40px;
+			}
+			#play{
+				background-position:-252px -122px;
+			}
+			#next{
+				background-position:-252px -214px;
+			}
+			#stop{
+				background-position:-575px -122px;
+			}
+			#volume{
+				background-position:-575px -214px;
+			}
+			#fullscreen{
+				background:url("images/fullscreen.png");
+			}
+		</style>
+	</head>
+	<body><!--身体-->
+		<!--div盒子模型标签 宽度 高度 位置 背景 边框(css样式)-->
+		<div id="wrap"><!--id="自定义的名称" 唯一的(身份证号) 命名规范(见名知意:用有语义的英文单词)-->
+			<div class="video"><!--class类名 可重复的(姓名)-->
+				<video id="myVideo" width="600" height="400" src="video/潭州学员端午祝福.mp4">
+					您的浏览器不支持video视频播放，请您更换浏览器!!
+				</video>
+			</div>
+			<!--进度条-->
+			<div class="progress">
+				<div class="currentTime">00:00:00</div>
+				<div class="pro_bat">
+					<div class="pro"></div>
+				</div>
+				<div class="allTime">00:00:00</div>
+			</div>
+			<!--控制按钮-->
+			<div class="controls">
+				<p id="prev"></p>
+				<p id="play"></p>
+				<p id="next"></p>
+				<p id="stop"></p>
+				<p id="volume"></p>
+				<p id="fullscreen"></p>
+			</div>
+		</div>
+		<script>
+			//什么元素 触发 什么事件 实现 什么效果
+			//找到元素
+			//在document文档下By通过id名get获取Element元素
+			var oBtn = document.getElementById("play");
+			var myVideo = document.getElementById("myVideo");
+			var next = document.getElementById("next");
+			var onOff = true;//做一个开关来存储视频播放的状态
+			oBtn.onclick = function(){
+				//alert("注意点：你点到我啦")
+				if (onOff)//若果onOff==true的话就会执行if里面的语句
+				{
+					//播放视频
+					myVideo.play();
+					//onOff = false;
+					//this 谁的事件就指代谁
+					this.style.backgroundPosition = "-413px -122px";
+				}else{
+					//暂停播放
+					myVideo.pause();
+					//onOff = true;
+					this.style.backgroundPosition = "-252px -122px";
+				}
+				onOff = !onOff;// ! 取反
+			}
+			//用一个数组来存储视频路径
+			var urls = ["潭州学员端午祝福.mp4","喜羊羊与灰太狼第1集.mp4","喜羊羊与灰太狼第2集.mp4","喜羊羊与灰太狼第3集.mp4","喜羊羊与灰太狼第4集.mp4"]
+			var n = 0;
+			//console.log(urls[1]);//在控制台输出
+			next.onclick = function(){
+				n++;//n = n+1 下一次用到n的时候才+1 
+					//++n 本次就是加1的
+				if (n>4)
+				{
+					n = 0
+				}
+				myVideo.src = "video/"+urls[n];
+				myVideo.play();
+			}
+		</script>
+	</body>
+</html>
