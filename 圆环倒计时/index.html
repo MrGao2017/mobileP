@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <style media="screen">
+    *{margin: 0;padding: 0; box-sizing: border-box;}
+    .wrap{display: flex; flex-direction: column; justify-content: center; align-items: center; width: 400px; height: 600px; margin: 50px auto; box-shadow: 0 0 8px #222; background: #e1e1e1}
+    .clock{display: flex;justify-content: center;align-items: center; width: 100%; height: 280px; background: #368;}
+    .clock .c_box{position: relative; display: flex;flex-direction: row;justify-content: space-around; align-items: center; width: 200px; height: 200px; background: #fff;}
+    .clock .c_left{overflow: hidden; width: 100px; height: 200px; background: #368;}
+    .clock .c_right{ position: relative;width: 100px; height: 200px; background: #368;}
+    .boderA{border: 5px solid transparent;}
+    .clock .l_rotate{width: 200px; height: 200px; border-radius: 50%; border-left: 5px solid #fff; border-top: 5px solid #fff; transform: rotate(-45deg);}
+    .clock .r_rotate{position: absolute; right: 0;width: 200px; height: 200px; border-radius: 50%;border-radius: 50%; border-right: 5px solid #fff; border-bottom: 5px solid #fff; transform: rotate(-45deg);}
+    .clock .txt{position: absolute; color: #fff; font-size: 30px; text-shadow: 0 0 5px #000;}
+    .control{display: flex; flex-direction: column; justify-content: space-around; align-items: center; width: 100%; height: 300px;}
+    .control #set_time{outline: none; width: 120px; height: 25px; padding: 10px; border: none; border-radius: 10px;}
+    .control .start{width: 100px; height: 100px; background: #368; border-radius: 50%; color: #fff; font-size: 20px; text-align: center; line-height: 100px; cursor: pointer;}
+  </style>
+  <body>
+    <div class="wrap">
+      
+      <div class="clock">
+        <div class="c_box">
+          <div class="c_left">
+            <div class="l_rotate boderA"></div>
+          </div>
+          <div class="c_right">
+            <div class="r_rotate boderA"></div>
+          </div>
+          <div class="txt">
+            00:00
+          </div>
+        </div>
+      </div>
+      
+      <div class="control">
+        <input type="number" id="set_time" placement="请输出分钟" value="">
+        <div class="start">开始</div>
+      </div>
+      
+    </div>
+    <script type="text/javascript">
+      var oStart = document.querySelector('.start');
+      var oSetTime = document.querySelector('#set_time');
+      var oTxt = document.querySelector('.txt');
+      var oLrotate =  document.querySelector('.l_rotate');
+      var oRrotate =  document.querySelector('.r_rotate');
+      var counnt ={
+        time:0,
+        toggle:true,
+        lRt:45,
+        rRt:-45,
+        timeOuter:null,
+        mm:0,
+        ss:0
+      }
+      oStart.onclick = function () {
+        if(counnt.toggle&&oSetTime.value>0){
+          counnt.time = parseInt(oSetTime.value)*60*1000;
+          oSetTime.style.display = 'none';
+          oStart.innerHTML = '停止';
+          oSetTime.value = '';
+          timeout(timeRun) //点击之后开始倒计时
+        }else if(!counnt.toggle) {
+          rezero();
+          oSetTime.style.display = 'block';
+          oStart.innerHTML = '开始';
+        }else {
+          alert('请设置时间~~~')
+        }
+        console.log(counnt.toggle);
+        counnt.toggle = !counnt.toggle;
+        
+      }
+      function timeRun(){
+        if(counnt.time<=0){
+          rezero(); //重置停止
+          return;
+        }
+        counnt.time -= 1000;
+        counnt.mm = parseInt(counnt.time/1000/60); //毫秒
+        counnt.ss = parseInt(counnt.time/1000%60); //分钟
+        oTxt.innerHTML =  counnt.mm +':'+counnt.ss;
+      }
+      function rezero() {
+        clearTimeout(counnt.timeOuter);
+        counnt.time = 0;
+        oTxt.innerHTML =  counnt.mm +':'+counnt.ss;
+        oSetTime.style.display = 'block';
+        oStart.innerHTML = '开始';
+      }
+      function timeout(cb) {
+        cb && cb();
+        counnt.timeOuter = setTimeout(function(){
+          timeout(cb);
+        },1000)
+      }
+    
+    </script>
+  </body>
+</html>
