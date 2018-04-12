@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+   
+    <div id="app">
+      
+
+       <select v-model="multiSelected" multiple >
+            <option>a</option>
+            <option>b</option>
+            <option>c</option>
+        </select>
+        <span>13:{{multiSelected.join('|')}}</span>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                message:'',
+                gender:'',
+                checked:'',
+                multiChecked:[],
+                selected:'',
+                multiSelected:[]
+            }
+        })
+    </script>
+</body>
+</html>

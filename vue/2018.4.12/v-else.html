@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-if="Math.random() > 0.5">
+         Now you see me
+        </div>
+        <div v-else>
+            Now you don't
+        </div>
+    </div>
+    <!--   
+       1.v-else 必须跟在v-if的后边，不然会报错
+        2.v-if绑定的元素包含子元素则不影响v-else的使用
+    -->
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+               yes:true
+            }
+        })
+    </script>
+</body>
+</html>
