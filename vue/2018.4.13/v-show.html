@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <form action="">
+            <div style="color:red" class="error" v-show="!msg">you mast enter a mes to submit</div>
+            <textarea v-model="msg"></textarea>
+            <button v-show="msg">按钮</button>
+        </form>
+    </div>
+    <script>
+        new Vue({
+            el:'#app',
+            data : {
+                msg:''
+            }
+        })
+    </script>
+</body>
+</html>
