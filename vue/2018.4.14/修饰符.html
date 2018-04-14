@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div @click.self = "parent">
+            父亲
+            <div>123</div>
+            <div @click.stop = "child">孩子</div>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                message:''
+            },
+            methods: {
+                parent(){
+                    alert('父亲')
+                },
+                child(){
+                    alert('孩子')
+                }
+            }
+        })
+    </script>
+</body>
+</html>
