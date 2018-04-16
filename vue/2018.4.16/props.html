@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h3>父组件中使用了count</h3>
+        {{count}}
+        <custorm-select v-bind:count ="count" @increment-click = "countHandel"></custorm-select>                             
+    </div>
+    <script>
+        Vue.component('custorm-select',{
+            props: ['count'],
+            // 用data
+            data(){
+                return{
+                    incrementCount : this.count
+                }
+            },
+            template:`
+                <div>
+                    我是一个自定义的组件{{incrementCount}}
+                    <input type="button" value ="加加" @click= "changeHandel">
+                </div>
+                
+            `,
+            methods: {
+                changeHandel(){
+                    this.incrementCount++;
+                    this.$emit('increment-click')
+                }
+            }
+            
+        })
+        new Vue({
+            el:'#app',
+            data:{
+                count:0
+            },
+            methods:{
+                countHandel(){
+                    console.log('子组件点击了')
+                    this.count++
+                }
+            }
+        })
+    </script>
+</body>
+</html>

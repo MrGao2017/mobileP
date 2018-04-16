@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <coustom>
+            {{msg }}
+        </coustom>
+    </div>
+    <script>
+        Vue.component('coustom', {
+            data:function(){
+                return {
+                    msg:'我是子组件'
+                }
+            },
+            template:`
+                <div>
+                    {{msg}}
+                    <p>这是第一个提醒</p>
+                    <p>这是第二个提醒</p>
+                    <p>这是第三个提醒</p>
+                    <slot></slot>
+                </div>
+            `
+        })
+        new Vue({
+            el:'#app',
+            data:{
+                msg:'我是父组件'
+            }
+        })
+    </script>
+</body>
+</html>
