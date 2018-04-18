@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+       <custom>
+           <div slot="one">替换1</div>
+           <div slot="three">替换3</div>
+           <p slot="four">替换4</p>
+           <div slot="two">替换2</div>
+           
+       </custom>
+    </div>
+    <script>
+        Vue.component('custom',{
+           
+            template:`
+                <div>
+                    
+                        <slot name='one'><h2>我是一个自定义组件</h2></slot>
+                        <slot name='two'<p>我是一个自定义组件2</p></slot>
+                        <slot name='three'<p>我是一个自定义组件3</p></slot>
+                        <slot name='four'<p>我是一个自定义组件4</p></slot>
+                    
+                </div>
+            `,
+            
+        })
+        new Vue({
+            el:'#app',
+            data:{
+                count:0
+            },
+           
+        })
+    </script>
+</body>
+</html>
