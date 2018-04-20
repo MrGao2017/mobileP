@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script src="./vue.js"></script>
+    <script src="./vue-resource.js"></script>
+    <style>
+    .gree{background: gray}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="text"  v-model="msg" @keyup = "get($event)" @keydown.down = "changeDown" @keydown.up.prevent = "changeUp">
+        <ul>
+            <li v-for="(item,index) in myData" :class= "{gree:index == now}">{{item}}</li>
+        </ul>
+        <p v-show="!myData.length">暂无数据</p>
+    </div>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                myData:[],
+                msg:'',
+                now:-1
+            },
+            methods: {
+                get(ev){
+                   if(ev.keyCode == 38 ||ev.keyCode == 40)return;
+                   if(ev.keyCode == 13){
+                       console.log( this.msg)
+                       window.open('https://www.baidu.com/s?wd=' + this.msg)
+                       this.msg = '';
+                   };
+                   
+                    this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+                        wd:this.msg
+                    },{
+                        jsonp:'cb'
+                    }).then((result) => {
+                        this.myData = result.data.s
+                    }).catch((err) => {
+                        alert('1')
+                    });
+                    
+                },
+                changeDown(){
+                   this.now++
+                   if(this.now == this.myData.length){
+                    this.now = -1
+                   }
+                   this.msg = this.myData[this.now]
+                },
+                changeUp(){
+                   this.now--
+                   if(this.now == -2){
+                    this.now = this.myData.length -1
+                   }
+                   this.tmsg1 = this.myData[this.now]
+                }
+            }
+        })
+       // https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=a&json=jshow
+       //https://www.baidu.com/s?wd=
+    </script>
+</body>
+</html>
