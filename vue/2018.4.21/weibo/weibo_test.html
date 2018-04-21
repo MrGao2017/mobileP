@@ -1,0 +1,110 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<link href="style/weibo.css" rel="stylesheet" type="text/css" />
+    <script src="../vue.js"></script>
+    <script src="../vue-resource.js"></script>
+    
+</head>
+
+<body>
+<div class="znsArea">
+<!--留言-->
+     <div class="takeComment">
+        <textarea name="textarea" class="takeTextField" id="tijiaoText" v-model="t1" @keyup.13 ="add"></textarea>
+        <div class="takeSbmComment">
+            <input type="button" class="inputs" value="" @click = "add" />
+            <span>(可按 Enter 回复)</span>
+        </div>
+    </div>
+<!--已留-->
+    <div class="commentOn">
+        <div class="noContent" v-show="!msgData.length">暂无留言</div>
+        <div class="messList">
+        	<div class="reply" v-for="(item,index) of msgData">
+                <p class="replyContent">{{item.content}}</p>
+                <p class="operation">
+                    <span class="replyTime">{{ item.time}}</span>
+                    <span class="handle">
+                    	<a href="javascript:;" class="top">{{item.acc}}</a>
+                        <a href="javascript:;" class="down_icon">{{item.ref}}</a>
+                        <a href="javascript:;" class="cut">删除</a>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="page">
+        	<a href="javascript:;" class="active">1</a>
+        	<a href="javascript:;">2</a>
+        	<a href="javascript:;">3</a>
+        </div>
+    </div>
+</div>
+<script>
+    var URL = "weibo.php";
+    new Vue({
+        el:'.znsArea',
+        data:{ //vue的属性  数据
+            t1:'',
+            msgData:[
+                
+            ]
+        },
+        methods:{
+            add(){   //添加留言
+                this.$http({    //默认get
+                    url:URL,
+                    data:{   //给后太发送的数据
+                        act:'add',
+                        content:this.t1
+                    } 
+                }).then(function(res){
+                    var json = res.data;
+                    this.msgData.unshift({
+                        content:this.t1,
+                        time:json.time,
+                        acc:this.acc,
+                        ref:this.ref,
+                        id:json.id
+                   })
+                    this.t1 = ''
+                })
+            },
+        // 封装函数获取某一页数据页数
+            getPageData(n){
+                this.$http({
+                    url:'weibo.php',
+                    data:{   //给后太发送的数据
+                        act:'get',
+                        page:n
+                        } 
+                }).then(function(res){
+                    var arr = res.data;
+                    console.log(arr.length)
+                   
+                    for(let i=0;i<arr.length;i++){
+                       
+                        this.msgData.push({
+                        content:arr[i].t1,
+                        time:arr[i].time,
+                        acc:arr[i].acc,
+                        ref:arr[i].ref,
+                        id:arr[i].id
+                     })
+                    }
+                    
+                })
+                
+            }
+        },
+        
+        created() {
+           this.getPageData(1)
+        }
+    })
+    console.log(vm.$log())
+</script>
+</body>
+</html>
