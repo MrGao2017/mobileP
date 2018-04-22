@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+   <script src="./vue.js"></script>
+   <style>
+      
+   </style>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <router-link to="/one">第一步，父路由一</router-link><!--第一部分-->
+            <router-link to="/two">第一步，父路由二</router-link>
+        </div>
+                
+        <router-view></router-view><!--显示第二部-->
+                
+    </div>
+                
+    <!--创建子路由-->
+    <template id="one">
+        <div><!--注意事项子路由里的标签必须用一个大div包裹里面的内容-->
+            <router-link to="one_a">第二步，子路由one</router-link>
+            <router-view></router-view><!--显示第三部分-->
+        </div>
+    </template>
+                
+    <template id="two">
+        <div>
+            <router-link to="two_a" > 第二步，子路由two </router-link >
+            <router-view ></router-view >
+        </div>
+    </template>
+                
+    <template id="one_a">
+        <div><span>这是第三部分的one_a</span></div>
+    </template>
+                
+    <template id="two_a" >
+        <div><span>这是第三部的two_a</span></div>
+    </template>
+                
+              
+    <script>
+        
+    // 0. 如果使用模块化机制编程，导入Vue和VueRouter，要调用 Vue.use(VueRouter)
+    Vue.use(VueRouter)
+    var one=Vue.extend({
+        template:"#one"
+    })
+
+    var two=Vue.extend({
+        template:"#two"
+        })
+
+    var one_a=Vue.extend({
+        template:"#one_a"
+    })
+
+    var two_a=Vue.extend({
+        template:"#two_a"
+    })
+    var routes = [
+        {
+            path:'/one',
+            component:one,
+            //在一级路由中嵌套路由，用children属性
+            children:[
+                {
+                    path:"/one_a",
+                    component:one_a
+                    }
+            ]
+        },
+
+        {
+            path:'/two',
+            component:two,
+            children:[
+                {
+                    path:"/two_a",
+                    component:two_a
+                } 
+            ]
+
+        }
+
+    ]
+
+    var router = new VueRouter({
+        routes
+    })
+    const app = new Vue({
+        router // （缩写）相当于 router: router
+    }).$mount('#app')
+    </script>
+</body>
+</html>

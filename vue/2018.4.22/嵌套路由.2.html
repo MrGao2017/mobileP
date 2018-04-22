@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+   <script src="./vue.js"></script>
+   <style>
+       .router-link-active{color: #f00; font-size: 20px; text-decoration: none}
+   </style>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <router-link to="/home">主页</router-link>
+            <router-link to="/news">新闻</router-link>
+        </div>
+        <div>
+            <router-view></router-view>   <!-- 路由匹配到的组件将渲染在这里 -->
+        </div>
+    </div>
+    <template id="home">
+            <div>
+                <h1>我是主页</h1>
+                <div>
+                    <router-link to="login">登录</router-link>
+                    <!-- <router-link to="reg">注册</router-link> -->
+                    <router-view></router-view>
+                </div>
+                
+            </div>
+            
+    </template>
+    <script>
+        
+        // 0. 如果使用模块化机制编程，导入Vue和VueRouter，要调用 Vue.use(VueRouter)
+        Vue.use(VueRouter)
+        //1. 定义（路由）组件。
+        let Home = Vue.extend({
+            template:home
+        })
+        // let News = Vue.extend({
+        //     template:  `<h1>我是新闻</h1>`
+        // })
+        const UserPosts = { template: '<div>Posts</div>' }
+
+        // const Home = { template: '<div>我是主页</div>' }
+        // const News = { template: '<div>我是新闻</div>' }
+
+        // 2. 定义路由
+        // 每个路由应该映射一个组件。 其中"component" 可以是
+        // 通过 Vue.extend() 创建的组件构造器，
+        // 或者，只是一个组件配置对象。
+        const routes = [
+            {
+                path:'/home',
+                component:Home,
+                //子路由
+                children:[
+                    {
+                        path:'/login',
+                        component:UserPosts
+                    },
+                    // {
+                    //     path:'reg',
+                    //     component:{
+                    //         template:`<strong>我是注册信息</strong>`
+                    //     }
+                    // }
+                ]
+            },
+            // {
+            //     path:'/news',
+            //     component:News
+            // },
+            //跳转
+            // {
+            //     path: '/',
+            //     redirect: '/home',
+            // }
+        ]
+        // 3. 创建 router 实例，然后传 `routes` 配置
+        const router = new VueRouter({
+            routes // （缩写）相当于 routes: routes
+        })
+        //4创建和挂载根实例。
+        // 记得要通过 router 配置参数注入路由，
+        // 从而让整个应用都有路由功能
+        
+        const app = new Vue({
+            
+            router // （缩写）相当于 router: router
+            
+        }).$mount('#app')
+    </script>
+</body>
+</html>
