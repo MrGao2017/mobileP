@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="添加" @click="add">
+       <div>
+           <router-link to="/home">主页</router-link>
+           <router-link to="/user">用户</router-link>
+       </div>
+       <div>
+           <router-view></router-view>
+       </div>
+    </div>
+    <script>
+         Vue.use(VueRouter)
+
+        //准备组件
+        let Home = {
+            template:`<h3>我是主页</h3>`
+        }
+        let User = {
+            template:`
+               <div>
+                    <h3>我是用户信息</h3>
+                    <ul>
+                        <li><router-link to="/user/strive/age/10">Strive</router-link></li>
+                        <li><router-link to="/user/blue/age/80">blue</router-link></li>
+                        <li><router-link to="/user/eric/age/1">eric</router-link></li>
+                    </ul>
+                    <div>
+                            <router-view></router-view>
+                    </div>
+               </div>
+            `
+        }
+        let UserDetail = {
+            template:`<div>{{$route.params}}</div>`
+        }
+        //配置露营
+        const routes = [
+            { path: '/home', component:Home },
+            { 
+                path: '/user',
+                component:User,
+                children:[
+                    {
+                        path: ':username/age/:age',    //不要加/ , 加/ 是根目录
+                        component:UserDetail
+                    }
+                ]
+            },
+            { path: '*', redirect: '/home' }   //重定向
+        ]
+        //生成路由实例
+        const router = new VueRouter({
+            routes:routes
+        })
+        //挂到路由
+        const app = new Vue({
+            router, //简写 router:router
+            methods: {
+                add(){
+                    router.push({
+                        path:'home'
+                    })
+                }
+            }
+        }).$mount('#app')
+
+
+    </script>
+</body>
+</html>

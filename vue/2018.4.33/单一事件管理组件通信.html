@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <custom-a></custom-a>
+        <custom-b></custom-b>
+        <custom-c></custom-c>
+    </div>
+    <script>
+        //准备一个空的实例兑现
+        const Event = new Vue();
+        const A = {
+            template:`
+                <div>
+                    <span>我是a组件</span> --》 {{a}}
+                    <input type="button" value = "把A数据给C" @click = "send">
+                </div>
+            `,
+            data () {
+                return {
+                    a:'我是a数据'
+                }
+            },
+            methods: {
+                send(){
+                    
+                    Event.$emit('a-msg',this.a)
+                    
+                }
+               
+            }
+        }
+        const B = {
+            template:`
+                <div>
+                    <span>我是b组件</span> --》 {{a}}
+                    <input type="button" value = "把B数据给C" @click = "send">
+                </div>
+            `,
+            data () {
+                return {
+                    a:'我是b数据'
+                }
+            },
+            methods: {
+                send(){
+                   Event.$emit('b-msg',this.a) 
+                }
+            }
+        }
+        const C = {
+            template:`
+                <div>
+                    <h1>我是c组件</h1> 
+                    <span>我是接受过来的a数据 --> {{a}}</span>
+                    <hr>
+                    <span>我是接受过来的b数据-- >{{b}}</span>
+                <div>
+            `,
+            data () {
+                return {
+                    a:'',
+                    b:''
+                }
+            },
+            mounted () {
+               //接受a的数据
+                Event.$on('a-msg',function(a){
+                   this.a = a
+                }.bind(this))
+                //接受b的数据
+                
+                 Event.$on('b-msg',function(b){
+                   this.b = b
+                }.bind(this))
+            }
+        }
+        new Vue({
+            el:'#app',
+            components: {
+                'custom-a':A,
+                'custom-b':B,
+                'custom-c':C
+            }
+        })
+    </script>
+</body>
+</html>
