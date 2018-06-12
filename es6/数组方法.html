@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-for="(item,index,key) of items">{{item.message}} ---{{index}}----{{key}} </div>
+    </div>
+
+    <!-- 
+       1.Map  对数组中每一项运行给定的函数，返回每次函数调用的结果组成的数组
+        let arr=[1,2,3,4,5,6]
+        arr = arr.map(function(item){
+            return item*2
+        })
+        arr = arr.map(item=>{return item*2}) //或者（item=>item*2）
+        console.log(arr)
+
+
+        
+       sporter.map(function(item){
+            if(!item.isHell){
+                item.isHell = "--"
+            }
+        })
+        sporter.map(item=>{
+            if(!item.isHell){ item.isHell = "--"}
+        })
+        let name = sporter.map(item=>{
+            return item.name
+        })
+        console.log(name)
+        2.Filter  对数组中的每一项运行给定函数，返回该函数会返回true的项目数组
+
+        let name = sporter.filter(item=>{
+            return item.isHell
+        })
+        let arr = [1,2,3,2,5,1,2,]
+        let newArr = arr.filter(function(item,index,self){
+            
+            return self.indexOf(item) == index
+        })
+        let newArr = arr.filter((item,index,self)=>{
+            return self.indexOf(item) == index
+        })
+
+        3.Every
+            Every 检测数组所有元素是否都符合指定条件，如果数组中检测到有一个元素不满足，则整个表达式返回 false ，且剩余的元素不会再进行检测。
+            如果所有元素都满足条件，则返回 true。
+        注意：Every不会对空数组进行检测
+             Every 不会改变原数组 
+        4.some
+            some检测数组中的元素是否满足指定条件，会依次执行数组中的每个元素   
+            如果有一个元素满足条件，则返回true，剩余的元素不会执行检测，如果没有满足条件的元素则返回false
+            some不会对空数组进行检测
+            some不会改变原数组
+        5.Foreach    
+            便历数组
+        6.Reduce
+            每次只接受2各参数（当前结果，当前序列的下一项）  这个方法一般用在累计累加上
+        7.find和findIndex
+            find:方法返回传入一个测试条件（函数）符合条件的数组的  第一   个元素
+            findIndex：方法返回传入一个测试条件（函数）符合条件的数组第一个元素位置。
+            当数组中的元素在测试条件是返回true，find和findIndex返回符合条件的元素的索引位置，之后的之不会在调用执行函数，如果没有符合条件的元素返回-1
+            var getItem,arr=[11,22,33,44,55,66];
+            getItem = arr.find(item=>{
+                return item>30
+            })
+            console.log(getItem)
+     -->
+    <script>
+
+        var example1 = new Vue({
+            el: '#app',
+            data: {
+                items: [
+                    { message: 'Foo' },
+                    { message: 'Bar' }
+                ]
+            }
+        })
+        // console.log(newArr)
+
+    </script>
+</body>
+
+</html>
