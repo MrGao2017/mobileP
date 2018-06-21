@@ -1,0 +1,40 @@
+body{font:12px/150% corbel,Helvetica,Arial,Helvetica,sans-serif;text-align:center; padding:0; margin:0 auto;}
+body > div{text-align:left;margin-right:auto;margin-left:auto;} 
+div,form,ol,li,span,ul,dl,dt,dd{ margin:0; padding:0; border:0; text-align:left;}
+img,a img,p{border:0;margin:0;padding:0;}
+h1,h2,h3,h4,h5,h6{margin:0;padding:0; font-weight:normal; font-size:12px;}
+ul,ol,li {list-style:none;text-align:left;}
+fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td { margin: 0;padding: 0;border: 0;outline: 0;font-size: 100%;vertical-align: baseline; }
+img{vertical-align:top;}
+/* 默认链接颜色 */
+a{outline-style:none;text-decoration:none; color:#292929;}
+a:focus { outline: 0; }
+
+canvas{display:block;width: 300px; height: 250px; position: absolute; left: 0; top: 0}
+canvas.flare{opacity:0.5;}
+
+.ad-content{width: 300px; height:250px;  margin: 0 auto;background:url(../img/adBg.jpg) no-repeat center center;position: relative;}
+.ad-content .ad{z-index:999;}
+.ad li{ display:none;}
+.btn{width:160px; height: 60px; background:url(../img/btn.png) no-repeat center center; position: absolute; bottom:12px; left:70px; cursor: pointer; z-index: 999;
+animation: scaleDraw 1s ease 0s infinite;}
+.skill{padding-left:36px; width: 100px;  position: absolute; left: 0; top: 0;}
+.skill span{ display: block; font-size: 12px; font-family: 'Arial'; color: #fff; height:18px; line-height:18px;}
+.adIcon{width: 230px; height: 210px;  position: absolute; top:18px; left:42px;}
+.lv{ height:56px;  position: absolute; top: 146px; left: 6px; width:300px;}
+.lv dt{ float: left; margin-top: 14px;}
+.lv dd{float:right; margin-right:10px; }
+.ad li.show{ display:block;}
+
+@keyframes scaleDraw { 
+    0%{
+        transform: scale(.9); 
+    }
+    50%{
+        transform: scale(1);
+    }
+     100%{
+        transform: scale(.9);
+    }
+}
+
