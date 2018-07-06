@@ -22,8 +22,8 @@ var List = new Vue({
             name: 'Beats EP头戴式耳机',
             price: 558,
             type: 4,
-            stock: 128,  //库存
-            sales: 1872, //多少人付款
+            stock: 128,
+            sales: 1872,
             img: 'http://img11.360buyimg.com/n1/s528x528_jfs/t3109/194/2435573156/46587/e0e867ac/57e10978N87220944.jpg!q70.jpg'
         }, {
             id: 1002,
@@ -112,11 +112,10 @@ var List = new Vue({
         list: []
     },
     created() {
-        this.setList()   //实例创建完成后 挂载遍历出来的数据
+        this.setList()   //实例创建完成后 挂载便历出来的数据
     },
     methods:{
-        //渲染数据的函数
-        setList(){   
+        setList(){   //
             let self = this;
             this.list = this.goods.filter(function(item){
                 // console.log(item.type)
@@ -127,9 +126,10 @@ var List = new Vue({
                     return item.type === self.cate_index
                }
             })
+
+
         },
-        //需要切换类目的数组下标  商品列表切换
-        toggleCate(index){   
+        toggleCate(index){   //需要切换类目的数组下标  商品列表切换
            this.cate_index = index;   
            // 分类操作
            this.setList();
@@ -140,7 +140,7 @@ var List = new Vue({
            this.sortBy(this.sortMethods[filterIndex].method);
         },
         
-        //封装了一个函数 根据属性值进行升序或降序的比较器 (封装一个升序降序的函数)  
+        // 根据属性值进行升序或降序的比较器 (封装一个升序降序的函数)  
         compare(prop,type){  //prop 属性名    type 排序方法 (desc: 降序, asc: 升序)
             console.log(prop,type)
             type = type || 'desc';
@@ -186,121 +186,19 @@ var List = new Vue({
             this.list.sort(this.compare('price', type));
             this.price_isAsc = !this.price_isAsc;
         },
-        //商品排序
-        sortBy(method){   
+        sortBy(method){    //商品排序
             this.filter_index = this.sortMethods.findIndex(function(item){  //findIndex返回第一个符合条件的数组成员的位置，如果所有成员都不符合条件，则返回-1。
                 // console.log(item.method,Method)
                 return item.method === method
             })
             method = method || 'setList'   //点击
             method !== 'sortPrice' && (this.price_isAsc = false)  //禁止价格按照底下方式排序
-            this[method]();   //相当于this.sortSales()   this.setList() 调用
+            this[method]();   //相当于this.sortSales()   // this.setList() 调用
            
         },
         //添加到购物车
-        addToCart(goods){
-            let alreadyIndex = Cart.cart.findIndex(function(item,index){   //findIndex()函数也是查找目标元素，找到就返回元素的位置，找不到就返回-1。
-                return item.id === goods.id;
-            })
-            // console.log(alreadyIndex,goods)
-            // 查看商品是否存在，如果不存在就添加
-            if(alreadyIndex === -1){
-                let cartIndex = Cart.cart.length;
-                // 添加新的商品，并初始化其数量、价格、被选中状态
-                Cart.cart.push(goods);
-                Cart.$set(Cart.cart[cartIndex],'quantity',1)   //初始化其数量
-                Cart.$set(Cart.cart[cartIndex],'subtotal',goods.price.toFixed(1)) //初始化价格
-                Cart.$set(Cart.cart[cartIndex],'checked',false) //被选中状态
-                 // 新增商品，购物车不能为全选
-                 Cart.checkAllFlag = false;
-                return
-            }
-            // 如果商品已存在并且库存足够，数量加1
-            let alreadyGoods =  Cart.cart[alreadyIndex];  //添加到购物车存在的商品
-
-            let num = alreadyGoods.quantity;  //获取购物车存在的商品数量
-            let stock = alreadyGoods.stock; //获取购物车存在的商品库存
-            
-            if(num<stock){ //如果商品属相少于商品库存
-                Cart.$set(alreadyGoods, 'quantity', ++alreadyGoods.quantity);
-                Cart.$set(alreadyGoods, 'subtotal', (alreadyGoods.price * alreadyGoods.quantity).toFixed(1));
-            }else{
-                alert('库存不够')
-            }
+        addToCart(index){
 
         }
     }
 })
-
-var Cart = new Vue({
-    el:'#page-cart',
-    data:{
-        checkAllFlag:false,
-        selectedNum: 0,  //记录选中的个数
-        delFlag: false, //记录删除状态
-        cart: []
-    },
-    computed:{
-        // 已选商品的总额
-        totalPrice(){
-            let num = 0;
-            this.cart.forEach(function(item){
-                item.checked && (num += parseFloat(item.subtotal) )
-            })
-            return num
-        }
-    },
-    methods:{
-        //点击增加，减少
-        changeQty(isAdd, item){ //isAdd 是否增加    item商品下标
-            console.log(1)
-            let num = item.quantity;  //商品数量
-            let stock = item.stock;  //库存
-            if(isAdd && num<stock){
-                this.$set(item, 'quantity', ++num);
-            }else if(!isAdd && num>1){
-                this.$set(item, 'quantity', --num);
-            }
-            this.$set(item, 'subtotal', (item.price * num).toFixed(1));
-        },
-        //选中与不选中
-        selectGoods(item,index){
-            console.log(1)
-            // 状态值取反，并根据状态值对selectedNum进行加减
-            item.checked = !item.checked
-            item.checked ? ++this.selectedNum : --this.selectedNum
-            this.selectedNum === this.cart.length ? this.checkAllFlag = true : this.checkAllFlag = false
-        },
-        //编辑
-        toggleDelBtn(){
-            this.delFlag = !this.delFlag
-        },
-        // 全选
-        checkAll(){
-            let _this = this;
-            this.checkAllFlag = !this.checkAllFlag
-            this.cart.forEach(item => {
-                if(_this.checkAllFlag){
-                    item.checked = true;
-                    _this.selectedNum = _this.cart.length;
-                }else{
-                    item.checked = false;
-                    _this.selectedNum = 0
-                }
-            });
-        },
-        //删除
-        delGoods(){
-            let cart = this.cart;
-            this.cart = cart.filter(function(item){
-                return !item.checked
-            })
-            
-            this.selectedNum = 0; //重置被选商品数量
-            this.checkAllFlag = false; //重置全选状态
-            this.delFlag = !this.delFlag; //删除状态
-        }
-    },
-   
-})
-   

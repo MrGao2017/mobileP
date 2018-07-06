@@ -48,20 +48,20 @@
         <div class="device" id="page-cart">
             <header>
                 <span class="header-title">购物清单</span>
-                <span class="header-edit">
-                    <span>编辑</span>
-                    <span>完成</span>
+                <span class="header-edit"  @click="toggleDelBtn">
+                    <span v-show="!delFlag">编辑</span>
+                    <span v-show="delFlag">完成</span>
                 </span>
             </header>
             <div class="page">
-                <div class="empty-states">
+                <div class="empty-states" v-show="cart.length ===0">
                     <span>这里是空的，快去逛逛吧</span>    
                 </div>
-                <!-- <ul class="goods-list cart-list" v-else>
+                <ul class="goods-list cart-list">
                     
-                    <li class="goods-item">
+                    <li class="goods-item" v-for="(item, index) in cart">
                         <div class="item-selector">
-                            <div class="icon-selector">
+                            <div class="icon-selector" :class="{'selector-active':item.checked}" @click = "selectGoods(item,index)">
                                 <svg t="1504061791962" class="icon"  viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2922" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12">
                                     <path d="M908.288 127.488l-537.6 537.6-254.976-254.976L0 525.824l254.976 254.976 115.712 115.712L486.4 780.8l537.6-537.6z"
                                         fill="#ffffff" p-id="2923"></path>
@@ -69,29 +69,29 @@
                             </div>
                         </div>
                         <div class="goods-img">
-                            <img>
+                            <img :src="item.img" :alt="item.name">
                         </div>
                         <div class="goods-info">
-                            <p class="goods-title"></p>
+                            <p class="goods-title">{{item.name}}</p>
                             <div class="goods-price">
-                                <span>¥<b></b></span>
+                                <span>¥<b>{{item.price}}</b></span>
                             </div>
-                            <span class="des">库存件</span>
+                            <span class="des">库存{{item.stock}}件</span>
                             <div class="goods-num">
-                                <div class="num-btn">+</div>
-                                <div class="show-num"></div>
-                                <div class="num-btn">-</div>
+                                <div class="num-btn"  @click = "changeQty(true,item)">+</div>
+                                <div class="show-num">{{item.quantity}}</div>
+                                <div class="num-btn" @click="changeQty(false, item)">-</div>
                             </div>
                         </div>
                     </li>
-                </ul> -->
+                </ul>
                     
             </div>
-            <div class="action-bar">
+            <div class="action-bar" :class="{ 'del-box': delFlag }">
                 <!-- del-box -->
-                <div class="g-selector">
+                <div class="g-selector"  @click="checkAll">
                     <div class="item-selector">
-                        <div class="icon-selector" >
+                        <div class="icon-selector" :class="{'selector-active':checkAllFlag}">
                             <svg t="1504061791962" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2922" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12">
                                 <path d="M908.288 127.488l-537.6 537.6-254.976-254.976L0 525.824l254.976 254.976 115.712 115.712L486.4 780.8l537.6-537.6z"
                                     fill="#ffffff" p-id="2923"></path>
@@ -100,9 +100,9 @@
                     </div>
                     <span>全选</span>
                 </div>
-                <div class="action-btn buy-btn">去结算</div>
-                <div class="action-btn del-btn">删除()</div>
-                <div class="total">合计：<span>¥<b></b></span></div>
+                <div class="action-btn buy-btn">去结算({{ selectedNum }})</div>
+                <div class="action-btn del-btn" @click="delGoods">删除({{ selectedNum }})</div>
+                <div class="total">合计：<span>¥<b>{{totalPrice}}</b></span></div>
             </div>
         </div>
     </div>
